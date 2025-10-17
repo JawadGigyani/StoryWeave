@@ -7,7 +7,14 @@ __pycache__/
 venv/
 env/
 ENV/
-.venv
+.venv/
+backend/.venv/
+.mypy_cache/
+.pyrightcache/
+.ruff_cache/
+.pyre/
+.pytype/
+.python-version
 
 # Node.js
 node_modules/
@@ -21,6 +28,7 @@ yarn-error.log*
 out/
 build/
 .vercel
+.turbo/
 
 # Environment variables
 .env
@@ -42,13 +50,14 @@ Thumbs.db
 # Logs
 *.log
 logs/
+coverage.xml
 
 # Testing
 .coverage
 htmlcov/
 .pytest_cache/
 
-
 # Generated audio and outputs
 backend/outputs/
+backend/temp_*/
 *.mp3
