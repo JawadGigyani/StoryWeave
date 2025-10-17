@@ -22,10 +22,13 @@ elevenlabs = ElevenLabs(api_key=os.getenv("ELEVENLABS_API_KEY"))
 # Initialize FastAPI app
 app = FastAPI(title="Story Audio Generator API")
 
-# Add CORS middleware to allow frontend requests
+# Add CORS middleware to allow frontend requests (restrict via env in production)
+FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN")  # e.g., https://your-frontend.vercel.app
+allow_origins = [FRONTEND_ORIGIN] if FRONTEND_ORIGIN else ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, specify your frontend URL
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -187,6 +190,14 @@ def get_audio_duration(filename):
     )
     # Decode bytes -> string -> float
     return float(result.stdout.decode().strip())
+
+
+@app.on_event("startup")
+async def _check_ffmpeg():
+    """Warn if ffmpeg/ffprobe are not available at runtime."""
+    missing = [b for b in ("ffmpeg", "ffprobe") if shutil.which(b) is None]
+    if missing:
+        print(f"WARNING: Missing binaries: {', '.join(missing)}. Install them in the image/server.")
 
 
 def save_and_get_duration(state: StoryState):
