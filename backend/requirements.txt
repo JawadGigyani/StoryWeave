@@ -1,0 +1,9 @@
+langchain
+langchain-google-genai
+langchain-community
+langgraph
+elevenlabs
+fastapi
+uvicorn[standard]
+python-dotenv
+requests
