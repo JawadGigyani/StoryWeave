@@ -23,7 +23,7 @@ elevenlabs = ElevenLabs(api_key=os.getenv("ELEVENLABS_API_KEY"))
 app = FastAPI(title="Story Audio Generator API")
 
 # Add CORS middleware to allow frontend requests (restrict via env in production)
-FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN")  # e.g., https://your-frontend.vercel.app
+FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN") 
 allow_origins = [FRONTEND_ORIGIN] if FRONTEND_ORIGIN else ["*"]
 
 app.add_middleware(
